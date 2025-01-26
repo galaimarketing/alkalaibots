@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Product Sans';
+  src: url('/fonts/ProductSans-Regular.woff2') format('woff2'),
+       url('/fonts/ProductSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Product Sans';
+  src: url('/fonts/ProductSans-Bold.woff2') format('woff2'),
+       url('/fonts/ProductSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #2563eb;
+  --secondary: #1e293b;
+  --accent: #3b82f6;
+  --border: #1e293b;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Product Sans', system-ui, -apple-system, sans-serif;
+}
+
+html, body {
+  -webkit-text-size-adjust: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
