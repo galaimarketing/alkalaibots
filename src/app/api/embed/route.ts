@@ -77,6 +77,10 @@ export async function GET(request: Request) {
         isChatOpen = !isChatOpen;
         iframe.style.display = isChatOpen ? 'block' : 'none';
         toggleButton.innerHTML = isChatOpen ? closeIcon : chatIcon;
+
+        // Ensure the button is on top of iframe
+        toggleButton.style.zIndex = isChatOpen ? '1000001' : '1000000'; // Set higher z-index when iframe is open
+        
         console.log('Chat toggled:', isChatOpen);
       });
 
@@ -90,11 +94,13 @@ export async function GET(request: Request) {
           console.log('Closing chat widget');
           iframe.style.display = 'none';
           toggleButton.innerHTML = chatIcon;
+          toggleButton.style.zIndex = '1000000'; // Reset z-index when iframe is closed
           isChatOpen = false;
         } else if (event.data === 'openChatWidget') {
           console.log('Opening chat widget');
           iframe.style.display = 'block';
           toggleButton.innerHTML = closeIcon;
+          toggleButton.style.zIndex = '1000001'; // Ensure toggle button is above iframe
           isChatOpen = true;
         }
       });
