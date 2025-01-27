@@ -1111,47 +1111,19 @@ ${analysis.recommendedActions?.join('\n')}
   }
 
   return (
-    <div className={containerClassName} style={{ background: 'transparent' }}>
-      {/* Chat Window */}
-      <div className={`fixed bottom-24 right-8 z-50 ${isChatOpen ? 'block' : 'hidden'} w-80`} 
-           style={{ background: 'transparent' }}>
-        <div className="rounded-lg shadow-xl overflow-hidden" 
-             style={{ backgroundColor: chatbot.config.backgroundColor }}>
-          {/* Chat Header */}
-          <div className="p-2.5 flex items-center gap-2" 
-               style={{ borderBottomColor: chatbot.config.botMessageBg, borderBottomWidth: '1px' }}>
-            <div className="w-8 h-8 rounded-full flex items-center justify-center" 
-                 style={{ backgroundColor: chatbot.config.botIconColor || chatbot.config.primaryColor }}>
-              <svg className="w-5 h-5" fill="none" stroke="white" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                      d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-              </svg>
-            </div>
-
-            <div className="flex-1">
-              <h3 className="font-medium" style={{ color: chatbot.config.primaryColor }}>
-                {chatbot.config.name}
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="flex items-center gap-2 text-sm" 
-                      style={{ color: 'rgb(34 197 94)' }}>
-                  Online
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                </span>
-              </div>
-            </div>
-
-            <button
-              onClick={handleClose}
-              className="p-1 rounded-full hover:opacity-80 transition-opacity"
-              style={{ 
-                color: chatbot.config.botIconColor || chatbot.config.primaryColor 
-              }}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+    <div className={`fixed bottom-0 right-0 w-full sm:w-[400px] sm:max-w-[90vw] ${containerClassName}`}>
+      <div 
+        className={`${isChatOpen ? 'translate-y-0' : 'translate-y-full'} transform transition-transform duration-300 ease-in-out`}
+      >
+        <div className="relative h-[600px] max-h-[80vh] bg-[#0a0a0a] flex flex-col rounded-t-xl overflow-hidden border border-white/10">
+          {/* Header - Remove the close button and adjust the title container */}
+          <div 
+            className="flex items-center px-4 py-3 bg-gradient-to-r from-blue-600/80 to-blue-400/80 backdrop-blur-sm"
+            style={{ backgroundColor: chatbot.config.primaryColor }}
+          >
+            <h3 className="text-lg font-medium" style={{ color: chatbot.config.botTextColor }}>
+              {chatbot.config.name || 'Chat Assistant'}
+            </h3>
           </div>
 
           {/* Messages - Made smaller */}
