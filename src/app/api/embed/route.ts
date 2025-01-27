@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   // Create chat widget container
   const container = document.createElement('div');
   container.id = 'alkalaibots-chat-widget';
-  container.style.cssText = 'position: fixed; z-index: 2147483000; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
+  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
   document.body.appendChild(container);
 
   // Create iframe for the chat
@@ -26,22 +26,7 @@ export async function GET(request: Request) {
   }
 
   iframe.src = '${process.env.NEXT_PUBLIC_DOMAIN_URL}/bot/' + botId + '/widget';
-  
-  // Function to update iframe style based on screen size
-  function updateIframeStyle() {
-    if (window.innerWidth < 768) {
-      iframe.style.cssText = 'position: fixed; bottom: 80px; right: 10px; width: calc(100% - 20px); height: calc(100% - 100px); border: none; border-radius: 10px; background: #fff; transition: 0.3s; z-index: 2147483001; display: none; box-shadow: 0 0 20px rgba(0,0,0,0.1);';
-    } else {
-      iframe.style.cssText = 'position: fixed; bottom: 80px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: #fff; transition: 0.3s; z-index: 2147483001; display: none; box-shadow: 0 0 20px rgba(0,0,0,0.1);';
-    }
-  }
-
-  // Initial style setup
-  updateIframeStyle();
-  
-  // Update on resize
-  window.addEventListener('resize', updateIframeStyle);
-
+  iframe.style.cssText = 'position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 1000000; cursor: pointer; pointer-events: auto; display: none;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
   container.appendChild(iframe);
@@ -60,7 +45,8 @@ export async function GET(request: Request) {
     border: none;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-    z-index: 2147483002;
+    z-index: 1000000;
+    pointer-events: auto;
     transition: opacity 0.3s;
   \`;
 
@@ -89,13 +75,20 @@ export async function GET(request: Request) {
 
   // Add message listener for iframe communication
   window.addEventListener('message', function(event) {
+    // Add debug logs
     console.log('Message received:', event.data);
+    console.log('Message origin:', event.origin);
     
     if (event.data === 'closeChatWidget') {
       console.log('Closing chat widget');
       iframe.style.display = 'none';
       toggleButton.innerHTML = chatIcon;
       isChatOpen = false;
+    } else if (event.data === 'openChatWidget') {
+      console.log('Opening chat widget');
+      iframe.style.display = 'block';
+      toggleButton.innerHTML = closeIcon;
+      isChatOpen = true;
     }
   });
 })();`;
