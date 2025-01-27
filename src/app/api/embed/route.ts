@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   // Create chat widget container
   const container = document.createElement('div');
   container.id = 'alkalaibots-chat-widget';
-  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 10px; right: 5px; width: 0; height: 10px; overflow: visible; background: transparent;';
+  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
   document.body.appendChild(container);
 
   // Create iframe for the chat
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   }
 
   iframe.src = '${process.env.NEXT_PUBLIC_DOMAIN_URL}/bot/' + botId + '/widget';
-  iframe.style.cssText = 'position: fixed; bottom: 40px; right: 10px; width: 400px; height: 450px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 999998; display: none;';
+  iframe.style.cssText = 'position: fixed; bottom: 100px; right: 20px; width: 320px; height: 500px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 999998; display: none;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
   container.appendChild(iframe);
