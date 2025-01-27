@@ -1,19 +1,8 @@
-import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-
-export async function GET(request: Request) {
-  if (!process.env.NEXT_PUBLIC_DOMAIN_URL) {
-    throw new Error('NEXT_PUBLIC_DOMAIN_URL environment variable is not set');
-  }
-
-  // Read the embed.js content
-  const embedScript = `
 (function() {
   // Create chat widget container
   const container = document.createElement('div');
   container.id = 'alkalaibots-chat-widget';
-  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
+  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 150px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
   document.body.appendChild(container);
 
   // Create iframe for the chat
@@ -29,11 +18,12 @@ export async function GET(request: Request) {
   iframe.style.cssText = 'position: fixed; bottom: 150px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 999998; display: none;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
+  iframe.style.pointerEvents = 'auto';  // Ensure the iframe is interactive
   container.appendChild(iframe);
 
   // Create toggle button
   const toggleButton = document.createElement('button');
-  toggleButton.style.cssText = \`
+  toggleButton.style.cssText = `
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -47,7 +37,7 @@ export async function GET(request: Request) {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     z-index: 1000000;
     transition: opacity 0.3s;
-  \`;
+  `;
 
   // Define both SVG icons
   const chatIcon = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>';
@@ -90,12 +80,4 @@ export async function GET(request: Request) {
       isChatOpen = true;
     }
   });
-})();`;
-  
-  return new NextResponse(embedScript, {
-    headers: {
-      'Content-Type': 'application/javascript',
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
-} 
+})();
