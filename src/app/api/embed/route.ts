@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   }
 
   iframe.src = '${process.env.NEXT_PUBLIC_DOMAIN_URL}/bot/' + botId + '/widget';
-  iframe.style.cssText = 'position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 1000000; cursor: pointer; pointer-events: auto; display: none;';
+  iframe.style.cssText = 'position: fixed; bottom: 80px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 999998; display: none;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
   container.appendChild(iframe);
@@ -46,7 +46,6 @@ export async function GET(request: Request) {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     z-index: 1000000;
-    pointer-events: auto;
     transition: opacity 0.3s;
   \`;
 
