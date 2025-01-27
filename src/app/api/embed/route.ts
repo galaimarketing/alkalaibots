@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   // Create chat widget container
   const container = document.createElement('div');
   container.id = 'alkalaibots-chat-widget';
-  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 0px; right: 5px; width: 0; height: 0; overflow: visible; background: transparent;';
+  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 10px; right: 5px; width: 0; height: 10px; overflow: visible; background: transparent;';
   document.body.appendChild(container);
 
   // Create iframe for the chat
