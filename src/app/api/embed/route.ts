@@ -60,7 +60,7 @@ export async function GET(request: Request) {
       // Use the injected domain URL
       const domain = "${process.env.NEXT_PUBLIC_DOMAIN_URL}";
       iframe.src = \`\${domain}/bot/\${botId}/widget\`;
-      iframe.style.cssText = 'position: absolute; bottom: -20px; right: -15px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: all 0.3s ease; pointer-events: auto; display: none;';
+      iframe.style.cssText = 'position: absolute; bottom: -20px; right: -15px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: all 0.3s ease; pointer-events: none; display: none;';
       iframe.setAttribute('allowtransparency', 'true');
       iframe.setAttribute('frameBorder', '0');
 
@@ -78,9 +78,8 @@ export async function GET(request: Request) {
         iframe.style.display = isChatOpen ? 'block' : 'none';
         toggleButton.innerHTML = isChatOpen ? closeIcon : chatIcon;
 
-        // Ensure the button is on top of iframe
-        toggleButton.style.zIndex = isChatOpen ? '1000001' : '1000000'; // Set higher z-index when iframe is open
-        
+        // Adjust pointer-events on iframe to ensure it's clickable
+        iframe.style.pointerEvents = isChatOpen ? 'auto' : 'none';  // Enable iframe pointer events when visible
         console.log('Chat toggled:', isChatOpen);
       });
 
@@ -94,13 +93,13 @@ export async function GET(request: Request) {
           console.log('Closing chat widget');
           iframe.style.display = 'none';
           toggleButton.innerHTML = chatIcon;
-          toggleButton.style.zIndex = '1000000'; // Reset z-index when iframe is closed
+          iframe.style.pointerEvents = 'none';  // Disable pointer events when closed
           isChatOpen = false;
         } else if (event.data === 'openChatWidget') {
           console.log('Opening chat widget');
           iframe.style.display = 'block';
           toggleButton.innerHTML = closeIcon;
-          toggleButton.style.zIndex = '1000001'; // Ensure toggle button is above iframe
+          iframe.style.pointerEvents = 'auto';  // Enable pointer events when open
           isChatOpen = true;
         }
       });
