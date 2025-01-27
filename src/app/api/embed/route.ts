@@ -26,26 +26,9 @@ export async function GET(request: Request) {
   }
 
   iframe.src = '${process.env.NEXT_PUBLIC_DOMAIN_URL}/bot/' + botId + '/widget';
-  iframe.style.cssText = \`
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    transition: 0.3s;
-    z-index: 999998;
-    display: none;
-    -webkit-overflow-scrolling: touch;
-    overflow: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  \`;
+  iframe.style.cssText = 'position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 999998; pointer-events: auto; display: none;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
-  iframe.setAttribute('allow', 'clipboard-write');
   container.appendChild(iframe);
 
   // Create toggle button
@@ -63,8 +46,8 @@ export async function GET(request: Request) {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     z-index: 1000000;
+    pointer-events: auto;
     transition: opacity 0.3s;
-    -webkit-tap-highlight-color: transparent;
   \`;
 
   // Define both SVG icons
