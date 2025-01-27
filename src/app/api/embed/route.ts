@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   // Read the embed.js content
-  const embedScript = 
+  const embedScript = `
 (function() {
   // Create chat widget container
   const container = document.createElement('div');
@@ -26,12 +26,12 @@ export async function GET(request: Request) {
   }
 
   // First fetch bot configuration
-  fetch(\${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/bot-config/\${botId}\)
+  fetch(\`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/bot-config/\${botId}\`)
     .then(response => response.json())
     .then(botConfig => {
       // Create toggle button with bot's colors
       const toggleButton = document.createElement('button');
-      toggleButton.style.cssText = \
+      toggleButton.style.cssText = \`
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
         z-index: 1000000;
         pointer-events: auto;
         transition: opacity 0.3s ease;
-      \;
+      \`;
 
       // Define both SVG icons
       const chatIcon = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>';
@@ -59,7 +59,7 @@ export async function GET(request: Request) {
 
       // Use the injected domain URL
       const domain = "${process.env.NEXT_PUBLIC_DOMAIN_URL}";
-      iframe.src = \\${domain}/bot/\${botId}/widget\;
+      iframe.src = \`\${domain}/bot/\${botId}/widget\`;
       iframe.style.cssText = 'position: absolute; bottom: -20px; right: -15px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: all 0.3s ease; pointer-events: auto; display: none;';
       iframe.setAttribute('allowtransparency', 'true');
       iframe.setAttribute('frameBorder', '0');
@@ -102,7 +102,7 @@ export async function GET(request: Request) {
     .catch(error => {
       console.error('Failed to fetch bot configuration:', error);
     });
-})();;
+})();`;
   
   return new NextResponse(embedScript, {
     headers: {
