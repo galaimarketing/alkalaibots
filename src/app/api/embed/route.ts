@@ -1,3 +1,13 @@
+import { NextResponse } from 'next/server';
+
+export async function GET(request: Request) {
+  // Check if NEXT_PUBLIC_DOMAIN_URL environment variable is set
+  if (!process.env.NEXT_PUBLIC_DOMAIN_URL) {
+    throw new Error('NEXT_PUBLIC_DOMAIN_URL environment variable is not set');
+  }
+
+  // Read the embed.js content and return it as a script
+  const embedScript = `
 (function() {
   // Create chat widget container
   const container = document.createElement('div');
@@ -18,12 +28,12 @@
   iframe.style.cssText = 'position: fixed; bottom: 150px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 999998; display: none;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
-  iframe.style.pointerEvents = 'auto';  // Ensure the iframe is interactive
+  iframe.style.pointerEvents = 'auto';  // Make iframe interactive
   container.appendChild(iframe);
 
   // Create toggle button
   const toggleButton = document.createElement('button');
-  toggleButton.style.cssText = `
+  toggleButton.style.cssText = \`
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -37,7 +47,7 @@
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     z-index: 1000000;
     transition: opacity 0.3s;
-  `;
+  \`;
 
   // Define both SVG icons
   const chatIcon = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>';
@@ -81,3 +91,13 @@
     }
   });
 })();
+`;
+
+  // Return the embed script as JavaScript content
+  return NextResponse.json(embedScript, {
+    headers: {
+      'Content-Type': 'application/javascript',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+}
