@@ -7,14 +7,18 @@ export async function GET(request: Request) {
     throw new Error('NEXT_PUBLIC_DOMAIN_URL environment variable is not set');
   }
 
-  // Read the embed.js content
   const embedScript = `
 (function() {
-  // Create chat widget container
+  // Create chat widget container with pointer-events: auto
   const container = document.createElement('div');
   container.id = 'alkalaibots-chat-widget';
-  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
+  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; pointer-events: auto;';
   document.body.appendChild(container);
+
+  // Create a wrapper for the iframe to handle positioning
+  const iframeWrapper = document.createElement('div');
+  iframeWrapper.style.cssText = 'position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px; pointer-events: auto; z-index: 999998; display: none;';
+  container.appendChild(iframeWrapper);
 
   // Create iframe for the chat
   const iframe = document.createElement('iframe');
@@ -26,10 +30,10 @@ export async function GET(request: Request) {
   }
 
   iframe.src = '${process.env.NEXT_PUBLIC_DOMAIN_URL}/bot/' + botId + '/widget';
-  iframe.style.cssText = 'position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px; border: none; border-radius: 10px; background: transparent; transition: 0.3s; z-index: 1000000; cursor: pointer; pointer-events: auto; display: none;';
+  iframe.style.cssText = 'width: 100%; height: 100%; border: none; border-radius: 10px; background: transparent; transition: 0.3s; pointer-events: auto;';
   iframe.allowTransparency = 'true';
   iframe.frameBorder = '0';
-  container.appendChild(iframe);
+  iframeWrapper.appendChild(iframe);
 
   // Create toggle button
   const toggleButton = document.createElement('button');
@@ -59,34 +63,23 @@ export async function GET(request: Request) {
   toggleButton.onmouseleave = () => { toggleButton.style.opacity = '1'; };
   container.appendChild(toggleButton);
 
-  // Add debug log for initialization
-  console.log('Chat widget initialized with botId:', botId);
-  console.log('Widget URL:', iframe.src);
-
   let isChatOpen = false;
   
   // Toggle chat on button click
   toggleButton.addEventListener('click', function() {
     isChatOpen = !isChatOpen;
-    iframe.style.display = isChatOpen ? 'block' : 'none';
+    iframeWrapper.style.display = isChatOpen ? 'block' : 'none';
     toggleButton.innerHTML = isChatOpen ? closeIcon : chatIcon;
-    console.log('Chat toggled:', isChatOpen);
   });
 
   // Add message listener for iframe communication
   window.addEventListener('message', function(event) {
-    // Add debug logs
-    console.log('Message received:', event.data);
-    console.log('Message origin:', event.origin);
-    
     if (event.data === 'closeChatWidget') {
-      console.log('Closing chat widget');
-      iframe.style.display = 'none';
+      iframeWrapper.style.display = 'none';
       toggleButton.innerHTML = chatIcon;
       isChatOpen = false;
     } else if (event.data === 'openChatWidget') {
-      console.log('Opening chat widget');
-      iframe.style.display = 'block';
+      iframeWrapper.style.display = 'block';
       toggleButton.innerHTML = closeIcon;
       isChatOpen = true;
     }
