@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   // Create chat widget container
   const container = document.createElement('div');
   container.id = 'alkalaibots-chat-widget';
-  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent; pointer-events: none;';
+  container.style.cssText = 'position: fixed; z-index: 999999; bottom: 20px; right: 15px; width: 0; height: 0; overflow: visible; background: transparent;';
   document.body.appendChild(container);
 
   // Create iframe for the chat
@@ -103,11 +103,11 @@ export async function GET(request: Request) {
       console.error('Failed to fetch bot configuration:', error);
     });
 })();`;
-  
+
   return new NextResponse(embedScript, {
     headers: {
       'Content-Type': 'application/javascript',
       'Access-Control-Allow-Origin': '*',
     },
   });
-} 
+}
